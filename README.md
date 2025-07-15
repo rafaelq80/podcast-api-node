@@ -18,6 +18,8 @@
 
 </div>
 
+<br />
+
 API REST simples e funcional para gerenciamento de episódios de podcasts, desenvolvida com **Node.js puro**, **TypeScript** e **SQLite 3**, sem uso de frameworks externos.
 
 <br />
