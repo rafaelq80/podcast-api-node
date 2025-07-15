@@ -1,4 +1,4 @@
-# Podcast Menager
+# Podcast Manager
 
 ### Descrição
 

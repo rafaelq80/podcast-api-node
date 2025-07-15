@@ -1,94 +1,173 @@
-# Podcast Node API
+<h1>Desafio de projeto - Podcast Node API</h1>
 
-API simples de podcasts usando Node.js puro e SQLite, sem frameworks.
+<br />
 
-## Funcionalidades
-- Listar todos os episódios de podcasts
-- Filtrar episódios por nome do podcast
-- Cadastrar novo podcast com categorias
-- Atualizar podcast existente
-- Deletar podcast
-- Estrutura relacional: podcasts, categorias e associação muitos-para-muitos
+<div align="center">
+	<img src="https://i.imgur.com/r9lrbPG.png" title="source: imgur.com" width="35%"/>
+</div>
+<br />
 
-## Estrutura do Projeto
-```
+<div align="center">
+  <img src="https://img.shields.io/github/languages/top/rafaelq80/podcast-api-node?style=flat-square" />
+  <img src="https://img.shields.io/github/repo-size/rafaelq80/podcast-api-node?style=flat-square" />
+  <img src="https://img.shields.io/github/languages/count/rafaelq80/podcast-api-node?style=flat-square" />
+  <img src="https://img.shields.io/github/last-commit/rafaelq80/podcast-api-node?style=flat-square" />
+  <img src="https://img.shields.io/github/issues/rafaelq80/podcast-api-node?style=flat-square" />
+  <img src="https://img.shields.io/github/issues-pr/rafaelq80/podcast-api-node?style=flat-square" />
+  <img src="https://img.shields.io/badge/status-conclu%C3%ADdo-brightgreen" alt="Status: Concluído">
+
+</div>
+
+API REST simples e funcional para gerenciamento de episódios de podcasts, desenvolvida com **Node.js puro**, **TypeScript** e **SQLite 3**, sem uso de frameworks externos.
+
+<br />
+
+## 🎙️ Funcionalidades
+
+- 🔎 Listar todos os episódios de podcasts
+- 🎧 Filtrar episódios por nome do podcast
+- ➕ Cadastrar novo episódio com categorias
+- ✏️ Atualizar um episódio existente
+- ❌ Deletar um episódio
+- 🔗 Relacionamento muitos-para-muitos entre **podcasts** e **categorias**
+
+<br />
+
+## 📁Estrutura do Projeto
+
+```bash
 ├── src/
-│   ├── app.ts                # Roteamento principal
-│   ├── server.ts             # Inicialização do servidor
-│   ├── controllers/          # Controllers HTTP
-│   ├── services/             # Lógica de negócio
-│   ├── repositories/         # Acesso ao banco e migração
-│   ├── models/               # Modelos de dados
-│   ├── routes/               # Enum de rotas
-│   └── utils/                # Utilitários (conexão SQLite)
-├── podcasts.sqlite           # Banco de dados SQLite
+│   ├── app.ts              # Roteamento principal
+│   ├── server.ts           # Inicialização do servidor
+│   ├── controllers/        # Lógica de controle das requisições
+│   ├── services/           # Regras de negócio
+│   ├── repositories/       # Acesso ao banco e migração
+│   ├── models/             # Estrutura dos dados
+│   ├── routes/             # Enumeração das rotas
+│   └── utils/              # Funções auxiliares (ex: conexão SQLite)
+├── podcasts.sqlite         # Banco de dados local (SQLite)
 ├── package.json
 ├── tsconfig.json
-└── readme.md
+└── README.md
 ```
 
-## Como rodar o projeto
+<br />
 
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
-2. Crie um arquivo `.env` (opcional) para definir a porta:
-   ```env
-   PORT=3000
-   ```
-3. Inicie o servidor:
-   ```bash
-   npm start
-   ```
-   O servidor será iniciado na porta definida ou na 3000 por padrão.
+## ▶ Como Executar o Projeto
 
-## Rotas da API
+### 1. Clone o projeto
 
-### Listar todos os episódios
+```bash
+git clone https://github.com/rafaelq80/podcast-api-node
+```
+
+### 2. Instale as dependências
+
+```bash
+npm install
+```
+
+### 3. (Opcional) Configure a porta no `.env`
+
+Crie um arquivo `.env` com a variável de ambiente:
+
+```env
+PORT=3000
+```
+
+> Caso não informe a porta, o servidor usará a porta **3000** como padrão.
+
+### 4. Inicie a API
+
+```bash
+npm start
+```
+
+> O banco de dados será gerado e populado automaticamente a partir do arquivo `podcasts.json` na primeira execução.
+
+<br />
+
+## 🔗 Endpoints da API
+
+### 📋 Listar todos os episódios
+
 - **GET** `/api/list`
 
-### Filtrar episódios por nome do podcast
+### 🔍 Filtrar por nome do podcast
+
 - **GET** `/api/podcasts?p=nome_do_podcast`
 
-### Cadastrar novo podcast
+### 🆕 Criar novo episódio
+
 - **POST** `/api/podcasts`
-- **Body:**
+
+#### Exemplo de body:
+
 ```json
 {
   "podcastName": "flow",
   "episode": "Novo Episódio",
   "videoId": "abc123",
-  "categories": ["categoria1", "categoria2"]
+  "categories": ["entrevista", "humor"]
 }
 ```
-- **Resposta:**
+
+#### Resposta:
+
 ```json
 [
   {
     "podcastName": "flow",
     "episode": "Novo Episódio",
     "videoId": "abc123",
-    "categories": ["categoria1", "categoria2"],
+    "categories": ["entrevista", "humor"],
     "id": 5
   }
 ]
 ```
 
-### Atualizar podcast
+### 📝 Atualizar episódio existente
+
 - **PUT** `/api/podcasts/{id}`
-- **Body:** igual ao POST
-- **Resposta:** igual ao POST
 
-### Deletar podcast
+#### Body: igual ao POST
+
+#### Resposta: igual ao POST
+
+### 🗑 Deletar episódio
+
 - **DELETE** `/api/podcasts/{id}`
-- **Resposta:** status 204 (sem conteúdo) ou 404 se não encontrado
 
-## Observações
-- O banco é migrado automaticamente a partir do arquivo `podcasts.json` na primeira execução.
-- As categorias são únicas e associadas via tabela de relação.
-- O projeto não utiliza frameworks, apenas Node.js, SQLite e TypeScript.
+#### Resposta:
 
----
+- **204 No Content** – sucesso
+- **404 Not Found** – se não existir
 
-Desenvolvido para fins didáticos. Sinta-se à vontade para adaptar e evoluir!
+<br />
+
+## 🧠 Observações Técnicas
+
+- A estrutura de dados segue o modelo relacional com:
+  - Tabela de **podcasts**
+  - Tabela de **categorias** (únicas)
+  - Tabela intermediária de **relacionamento** (podcast-categoria)
+- A aplicação não utiliza nenhum framework backend (como Express ou Nest).
+- O projeto usa **Node.js com TypeScript**, módulos ES e SQLite puro.
+- Toda lógica de negócio, acesso a dados e roteamento foi implementada do zero.
+
+<br />
+
+## 🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido com foco **educacional**, para demonstrar na prática:
+
+- O uso de Node.js sem frameworks
+- Aplicação de princípios de arquitetura por camadas
+- Operações CRUD básicas em APIs REST
+- Uso de SQLite com relacionamentos e migração automática
+
+<br />
+
+## 📄 Licença
+
+Este projeto é apenas para fins educacionais e demonstrativos. 
